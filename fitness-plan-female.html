@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2ヶ月減量プログラム（女性版）</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700;900&family=Bebas+Neue&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d0d10; --surface: #131318; --card: #1a1a22; --border: #28283a;
+  --accent: #ff6eb4; --accent2: #b47fff; --accent3: #ff9d47;
+  --text: #f0f0f0; --muted: #888; --success: #4fffb0; --teal: #47e8d4;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--text); font-family:'Noto Sans JP',sans-serif; min-height:100vh; overflow-x:hidden; }
+body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events:none; z-index:999; opacity:0.4; }
+body::after { content:''; position:fixed; inset:0; background:radial-gradient(ellipse at 80% 20%, rgba(255,110,180,0.04) 0%, transparent 60%), radial-gradient(ellipse at 20% 80%, rgba(180,127,255,0.04) 0%, transparent 60%); pointer-events:none; z-index:998; }
+
+.hero { padding:60px 20px 40px; text-align:center; position:relative; border-bottom:1px solid var(--border); }
+.hero::after { content:''; position:absolute; bottom:-1px; left:50%; transform:translateX(-50%); width:120px; height:2px; background:linear-gradient(90deg,var(--accent),var(--accent2)); }
+.label { font-family:'Bebas Neue',sans-serif; letter-spacing:4px; color:var(--accent); font-size:13px; margin-bottom:12px; }
+h1 { font-family:'Zen Kaku Gothic New',sans-serif; font-weight:900; font-size:clamp(32px,7vw,64px); line-height:1.05; letter-spacing:-1px; }
+h1 span { background:linear-gradient(135deg,var(--accent),var(--accent2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.subtitle { color:var(--muted); font-size:13px; margin-top:12px; letter-spacing:1px; }
+.stats-bar { display:flex; justify-content:center; max-width:700px; margin:30px auto 0; border:1px solid var(--border); border-radius:12px; overflow:hidden; }
+.stat { flex:1; padding:18px 12px; text-align:center; border-right:1px solid var(--border); }
+.stat:last-child { border-right:none; }
+.stat-value { font-family:'Bebas Neue',sans-serif; font-size:28px; line-height:1; color:var(--accent); }
+.stat-label { font-size:10px; color:var(--muted); margin-top:4px; letter-spacing:1px; }
+
+.tabs { display:flex; max-width:900px; margin:40px auto 0; padding:0 20px; overflow-x:auto; scrollbar-width:none; }
+.tabs::-webkit-scrollbar { display:none; }
+.tab { padding:10px 18px; font-size:12px; font-family:'Noto Sans JP',sans-serif; font-weight:700; border:1px solid var(--border); background:transparent; color:var(--muted); cursor:pointer; transition:all 0.2s; white-space:nowrap; letter-spacing:1px; }
+.tab:first-child { border-radius:8px 0 0 8px; }
+.tab:last-child { border-radius:0 8px 8px 0; }
+.tab + .tab { border-left:none; }
+.tab.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+
+.content { max-width:900px; margin:0 auto; padding:30px 20px 60px; }
+.panel { display:none; animation:fadeIn 0.3s ease; }
+.panel.active { display:block; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+.week-header { display:flex; align-items:center; gap:16px; margin-bottom:16px; margin-top:32px; flex-wrap:wrap; }
+.week-header:first-child { margin-top:0; }
+.week-badge { font-family:'Bebas Neue',sans-serif; font-size:13px; letter-spacing:3px; padding:6px 14px; border-radius:4px; white-space:nowrap; }
+.phase1 { background:rgba(255,110,180,0.15); color:var(--accent); border:1px solid rgba(255,110,180,0.3); }
+.phase2 { background:rgba(180,127,255,0.15); color:var(--accent2); border:1px solid rgba(180,127,255,0.3); }
+.phase3 { background:rgba(71,232,212,0.15); color:var(--teal); border:1px solid rgba(71,232,212,0.3); }
+.week-title { font-weight:700; font-size:15px; }
+.week-goal { font-size:12px; color:var(--muted); margin-left:auto; }
+
+.day-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:6px; margin-bottom:8px; }
+@media(max-width:600px){ .day-grid { grid-template-columns:repeat(4,1fr); } }
+
+.day-card { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:10px 8px; text-align:center; transition:border-color 0.2s,transform 0.2s; cursor:pointer; }
+.day-card:hover { border-color:rgba(255,110,180,0.5); transform:translateY(-2px); }
+.day-name { font-size:10px; color:var(--muted); letter-spacing:1px; margin-bottom:6px; font-weight:700; }
+.day-type { font-size:9px; font-weight:700; letter-spacing:0.5px; padding:3px 6px; border-radius:3px; margin-bottom:6px; display:inline-block; }
+.type-strength { background:rgba(255,110,180,0.15); color:var(--accent); }
+.type-tennis { background:rgba(71,232,212,0.15); color:var(--teal); }
+.type-stretch { background:rgba(79,255,176,0.15); color:var(--success); }
+.type-rest { background:rgba(255,255,255,0.05); color:var(--muted); }
+.type-cardio { background:rgba(255,157,71,0.15); color:var(--accent3); }
+.type-yoga { background:rgba(180,127,255,0.15); color:var(--accent2); }
+.day-emoji { font-size:18px; display:block; margin:4px 0; }
+.day-sub { font-size:9px; color:#888; }
+
+.modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:2000; align-items:center; justify-content:center; padding:20px; }
+.modal-overlay.open { display:flex; }
+.modal { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:28px; max-width:560px; width:100%; max-height:80vh; overflow-y:auto; position:relative; animation:fadeIn 0.25s ease; }
+.modal-close { position:absolute; top:16px; right:16px; background:transparent; border:1px solid var(--border); color:var(--muted); width:32px; height:32px; border-radius:50%; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; }
+.modal-close:hover { border-color:var(--accent); color:var(--accent); }
+.modal-title { font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:3px; margin-bottom:4px; }
+.modal-subtitle { font-size:12px; color:var(--muted); margin-bottom:20px; }
+.modal-section { margin-bottom:16px; }
+.modal-section h4 { font-size:12px; font-weight:700; color:var(--accent2); letter-spacing:1px; margin-bottom:8px; text-transform:uppercase; }
+.modal-ex-item { background:var(--surface); border-radius:8px; padding:12px 14px; margin-bottom:8px; }
+.modal-ex-name { font-weight:700; font-size:14px; margin-bottom:4px; }
+.modal-ex-detail { font-size:12px; color:var(--muted); line-height:1.7; }
+.modal-ex-sets { display:inline-block; margin-top:6px; font-size:11px; color:var(--accent); background:rgba(255,110,180,0.12); padding:2px 10px; border-radius:20px; }
+
+.section-title { font-family:'Bebas Neue',sans-serif; font-size:20px; letter-spacing:3px; color:var(--accent); margin-bottom:16px; margin-top:32px; padding-bottom:8px; border-bottom:1px solid var(--border); }
+
+.exercise-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px; }
+.exercise-card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:16px; transition:border-color 0.2s; }
+.exercise-card:hover { border-color:var(--accent); }
+.ex-name { font-weight:700; font-size:14px; margin-bottom:6px; display:flex; align-items:center; gap:8px; }
+.ex-icon { font-size:18px; }
+.ex-detail { font-size:12px; color:var(--muted); line-height:1.6; }
+.ex-target { display:inline-block; margin-top:8px; font-size:10px; color:var(--accent); background:rgba(255,110,180,0.1); padding:2px 8px; border-radius:20px; letter-spacing:0.5px; }
+
+/* HIIT Timer */
+.hiit-app { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:24px; margin-top:8px; }
+.hiit-queue { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:20px; }
+.hiit-step { padding:6px 12px; border-radius:6px; font-size:11px; font-weight:700; border:1px solid var(--border); color:var(--muted); transition:all 0.3s; }
+.hiit-step.work { background:rgba(255,110,180,0.08); color:var(--accent); border-color:rgba(255,110,180,0.3); }
+.hiit-step.rest { background:rgba(180,127,255,0.08); color:var(--accent2); border-color:rgba(180,127,255,0.3); }
+.hiit-step.active { transform:scale(1.1); box-shadow:0 0 16px rgba(255,110,180,0.35); }
+.hiit-step.work.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+.hiit-step.rest.active { background:var(--accent2); color:#fff; border-color:var(--accent2); }
+.hiit-step.done { opacity:0.25; }
+
+.timer-display { text-align:center; padding:12px 0 24px; }
+.timer-phase-badge { display:inline-block; font-family:'Bebas Neue',sans-serif; font-size:14px; letter-spacing:4px; padding:5px 18px; border-radius:20px; margin-bottom:12px; }
+.timer-phase-badge.work { background:rgba(255,110,180,0.15); color:var(--accent); border:1px solid rgba(255,110,180,0.4); }
+.timer-phase-badge.rest { background:rgba(180,127,255,0.15); color:var(--accent2); border:1px solid rgba(180,127,255,0.4); }
+.timer-phase-badge.prep { background:rgba(255,157,71,0.15); color:var(--accent3); border:1px solid rgba(255,157,71,0.4); }
+.timer-phase-badge.complete { background:rgba(79,255,176,0.15); color:var(--success); border:1px solid rgba(79,255,176,0.4); }
+
+.timer-exercise-name { font-family:'Zen Kaku Gothic New',sans-serif; font-weight:900; font-size:clamp(28px,6vw,52px); line-height:1.1; min-height:60px; display:flex; align-items:center; justify-content:center; margin-bottom:4px; letter-spacing:-0.5px; transition:color 0.3s; }
+.timer-exercise-name.work { color:var(--accent); }
+.timer-exercise-name.rest { color:var(--accent2); }
+.timer-exercise-name.prep { color:var(--accent3); }
+
+.timer-number { font-family:'Bebas Neue',sans-serif; font-size:clamp(100px,22vw,160px); line-height:1; letter-spacing:-4px; transition:color 0.3s; }
+.timer-number.work { color:var(--accent); }
+.timer-number.rest { color:var(--accent2); }
+.timer-number.prep { color:var(--accent3); }
+
+.timer-round-info { margin-top:10px; display:flex; align-items:center; justify-content:center; gap:12px; }
+.timer-round-badge { font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:2px; padding:4px 16px; border-radius:20px; border:1px solid var(--border); color:var(--muted); }
+.timer-round-badge.last-round { background:rgba(255,157,71,0.15); color:var(--accent3); border-color:rgba(255,157,71,0.5); animation:lastPulse 1s ease-in-out infinite; }
+@keyframes lastPulse { 0%,100%{box-shadow:0 0 0 0 rgba(255,157,71,0.4)} 50%{box-shadow:0 0 0 6px rgba(255,157,71,0)} }
+.timer-last-label { font-family:'Bebas Neue',sans-serif; font-size:16px; letter-spacing:3px; color:var(--accent3); animation:lastPulse 0.8s ease-in-out infinite; }
+
+.timer-progress { width:100%; height:8px; background:var(--border); border-radius:4px; margin-top:16px; overflow:hidden; }
+.timer-progress-fill { height:100%; border-radius:4px; transition:width 0.95s linear; }
+.timer-progress-fill.work { background:linear-gradient(90deg,var(--accent),var(--accent2)); }
+.timer-progress-fill.rest { background:var(--accent2); }
+.timer-progress-fill.prep { background:var(--accent3); }
+
+.timer-controls { display:flex; gap:12px; justify-content:center; margin-top:24px; flex-wrap:wrap; }
+.btn { padding:12px 28px; border-radius:8px; font-size:14px; font-weight:700; cursor:pointer; transition:all 0.2s; letter-spacing:1px; border:none; font-family:'Noto Sans JP',sans-serif; }
+.btn-start { background:var(--accent); color:#fff; }
+.btn-start:hover { opacity:0.85; }
+.btn-pause { background:var(--surface); border:1px solid var(--border); color:var(--text); }
+.btn-pause:hover { border-color:var(--accent); color:var(--accent); }
+.btn-reset { background:var(--surface); border:1px solid var(--border); color:var(--muted); }
+.btn-reset:hover { border-color:var(--accent3); color:var(--accent3); }
+.btn:disabled { opacity:0.35; cursor:not-allowed; }
+
+.nutrition-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:12px; margin-top:8px; }
+.nutrition-card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:16px; }
+.nutrition-card h4 { font-size:13px; font-weight:700; margin-bottom:8px; color:var(--accent2); }
+.nutrition-card ul { list-style:none; font-size:12px; color:var(--muted); line-height:1.8; }
+.nutrition-card ul li::before { content:'→ '; color:var(--accent); }
+
+.food-tabs { display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap; }
+.food-tab { padding:8px 16px; border-radius:8px; border:1px solid var(--border); background:transparent; color:var(--muted); font-size:13px; font-weight:700; cursor:pointer; transition:all 0.2s; font-family:'Noto Sans JP',sans-serif; }
+.food-tab.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+.food-panel { display:none; }
+.food-panel.active { display:block; animation:fadeIn 0.2s ease; }
+
+.food-item { display:flex; align-items:center; background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px 16px; margin-bottom:8px; gap:12px; }
+.food-item-emoji { font-size:22px; width:36px; text-align:center; flex-shrink:0; }
+.food-item-info { flex:1; }
+.food-item-name { font-size:13px; font-weight:700; margin-bottom:2px; }
+.food-item-note { font-size:11px; color:var(--muted); }
+.food-item-kcal { font-family:'Bebas Neue',sans-serif; font-size:22px; color:var(--accent); white-space:nowrap; }
+.food-item-kcal span { font-family:'Noto Sans JP',sans-serif; font-size:10px; color:var(--muted); }
+.food-total-bar { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:16px 20px; margin-top:12px; display:flex; align-items:center; justify-content:space-between; }
+.food-total-label { font-size:13px; color:var(--muted); }
+.food-total-value { font-family:'Bebas Neue',sans-serif; font-size:28px; }
+.food-total-value.ok { color:var(--success); }
+.food-total-value.warn { color:var(--accent3); }
+.food-total-value.over { color:#ff4747; }
+.food-advice { font-size:12px; color:var(--muted); margin-top:10px; line-height:1.7; padding:12px 16px; background:var(--card); border-radius:8px; border-left:2px solid var(--accent); }
+
+.alcohol-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(175px,1fr)); gap:10px; margin-bottom:16px; }
+.alcohol-card { background:var(--card); border:2px solid var(--border); border-radius:12px; padding:16px; text-align:center; cursor:pointer; transition:all 0.2s; }
+.alcohol-card:hover { border-color:rgba(255,110,180,0.3); }
+.alcohol-card.selected { border-color:var(--accent); background:rgba(255,110,180,0.08); }
+.alcohol-emoji { font-size:32px; margin-bottom:8px; display:block; }
+.alcohol-name { font-size:13px; font-weight:700; margin-bottom:4px; }
+.alcohol-base { font-size:11px; color:var(--muted); }
+.alcohol-kcal { font-family:'Bebas Neue',sans-serif; font-size:20px; color:var(--accent); margin-top:6px; }
+.qty-control { display:flex; align-items:center; justify-content:center; gap:16px; margin:20px 0; }
+.qty-btn { width:40px; height:40px; border-radius:50%; border:1px solid var(--border); background:var(--surface); color:var(--text); font-size:20px; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; justify-content:center; }
+.qty-btn:hover { border-color:var(--accent); color:var(--accent); }
+.qty-display { font-family:'Bebas Neue',sans-serif; font-size:48px; color:var(--accent); min-width:60px; text-align:center; }
+.qty-unit { font-size:13px; color:var(--muted); }
+.alcohol-result { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:20px; text-align:center; }
+.alcohol-result-kcal { font-family:'Bebas Neue',sans-serif; font-size:52px; color:var(--accent3); line-height:1; }
+.alcohol-result-label { font-size:12px; color:var(--muted); margin-top:4px; }
+.alcohol-tip { font-size:12px; color:var(--muted); margin-top:12px; line-height:1.7; }
+
+.tips-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:12px; margin-top:8px; }
+.tip-card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:16px; }
+.tip-card h4 { font-size:13px; font-weight:700; margin-bottom:10px; display:flex; align-items:center; gap:8px; }
+.tip-card p, .tip-card li { font-size:12px; color:var(--muted); line-height:1.8; }
+.tip-card ul { list-style:none; }
+.tip-card ul li::before { content:'• '; color:var(--accent); }
+.alert-box { background:rgba(255,110,180,0.06); border:1px solid rgba(255,110,180,0.2); border-radius:10px; padding:16px 20px; font-size:13px; line-height:1.8; color:var(--muted); margin-top:24px; }
+.alert-box strong { color:var(--accent); }
+.info-box { background:rgba(180,127,255,0.06); border:1px solid rgba(180,127,255,0.25); border-radius:10px; padding:16px 20px; font-size:12px; line-height:1.9; color:var(--muted); margin-bottom:16px; }
+.info-box strong { color:var(--accent2); }
+
+.milestone-list { display:flex; flex-direction:column; gap:8px; margin-top:20px; }
+.milestone { display:flex; align-items:center; gap:12px; padding:12px 16px; background:var(--surface); border-radius:8px; border:1px solid var(--border); font-size:13px; }
+.milestone-week { font-family:'Bebas Neue',sans-serif; font-size:16px; color:var(--accent); min-width:60px; letter-spacing:2px; }
+
+.cycle-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:10px; margin-top:8px; }
+.cycle-card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px; }
+.cycle-card h4 { font-size:12px; font-weight:700; margin-bottom:8px; }
+.cycle-phase-label { display:inline-block; font-size:10px; font-weight:700; padding:2px 8px; border-radius:10px; margin-bottom:8px; }
+.follicular { background:rgba(255,110,180,0.15); color:var(--accent); }
+.ovulation { background:rgba(71,232,212,0.15); color:var(--teal); }
+.luteal { background:rgba(180,127,255,0.15); color:var(--accent2); }
+.menstrual { background:rgba(255,157,71,0.15); color:var(--accent3); }
+.cycle-card p { font-size:12px; color:var(--muted); line-height:1.7; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="label">▶ 2 MONTH FAT LOSS PROGRAM FOR WOMEN</div>
+  <h1>69kg → <span>64kg</span></h1>
+  <p class="subtitle">自重トレーニング × ストレッチ × テニス　｜　8週間・女性向けプログラム</p>
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-value">168</div><div class="stat-label">身長 cm</div></div>
+    <div class="stat"><div class="stat-value">69→64</div><div class="stat-label">体重 kg</div></div>
+    <div class="stat"><div class="stat-value">−5kg</div><div class="stat-label">目標減量</div></div>
+    <div class="stat"><div class="stat-value">24.4</div><div class="stat-label">現在BMI</div></div>
+    <div class="stat"><div class="stat-value">22.7</div><div class="stat-label">目標BMI</div></div>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab('schedule',this)">📅 週間スケジュール</button>
+  <button class="tab" onclick="showTab('exercises',this)">💪 エクササイズ詳細</button>
+  <button class="tab" onclick="showTab('hiit',this)">⏱️ HIITタイマー</button>
+  <button class="tab" onclick="showTab('nutrition',this)">🥗 食事管理</button>
+  <button class="tab" onclick="showTab('food',this)">🍜 外食カロリー</button>
+  <button class="tab" onclick="showTab('alcohol',this)">🍷 お酒カロリー</button>
+  <button class="tab" onclick="showTab('tips',this)">💡 コツ・注意点</button>
+</div>
+
+<div class="content">
+
+<!-- SCHEDULE -->
+<div id="panel-schedule" class="panel active">
+  <div class="info-box">
+    ⚡ <strong>女性の身体特性について：</strong>女性は男性より基礎代謝が約10〜15%低く、月経周期によってエネルギーレベルや体重が変動します（生理前は1〜2kg増えることも正常）。体重は<strong>週単位の平均</strong>で判断し、生理前後の数字に一喜一憂しないことが大切です。
+  </div>
+
+  <div class="week-header">
+    <span class="week-badge phase1">PHASE 1</span>
+    <span class="week-title">Week 1–2｜習慣形成期</span>
+    <span class="week-goal">目標：−1.0kg</span>
+  </div>
+  <div class="day-grid">
+    <div class="day-card" onclick="openDayModal('p1-mon')"><div class="day-name">MON</div><span class="day-type type-strength">筋トレ</span><span class="day-emoji">💪</span><div class="day-sub">下半身A</div></div>
+    <div class="day-card" onclick="openDayModal('p1-tue')"><div class="day-name">TUE</div><span class="day-type type-yoga">ヨガ</span><span class="day-emoji">🧘</span><div class="day-sub">全身ほぐし</div></div>
+    <div class="day-card" onclick="openDayModal('p1-wed')"><div class="day-name">WED</div><span class="day-type type-tennis">テニス</span><span class="day-emoji">🎾</span><div class="day-sub">60-90分</div></div>
+    <div class="day-card" onclick="openDayModal('p1-thu')"><div class="day-name">THU</div><span class="day-type type-strength">筋トレ</span><span class="day-emoji">💪</span><div class="day-sub">上半身A</div></div>
+    <div class="day-card" onclick="openDayModal('p1-fri')"><div class="day-name">FRI</div><span class="day-type type-stretch">ストレッチ</span><span class="day-emoji">🤸</span><div class="day-sub">+ウォーク</div></div>
+    <div class="day-card" onclick="openDayModal('p1-sat')"><div class="day-name">SAT</div><span class="day-type type-tennis">テニス</span><span class="day-emoji">🎾</span><div class="day-sub">90-120分</div></div>
+    <div class="day-card" onclick="openDayModal('rest')"><div class="day-name">SUN</div><span class="day-type type-rest">REST</span><span class="day-emoji">😴</span><div class="day-sub">完全休養</div></div>
+  </div>
+
+  <div class="week-header">
+    <span class="week-badge phase2">PHASE 2</span>
+    <span class="week-title">Week 3–5｜強化期</span>
+    <span class="week-goal">目標：−2.5kg</span>
+  </div>
+  <div class="day-grid">
+    <div class="day-card" onclick="openDayModal('p2-mon')"><div class="day-name">MON</div><span class="day-type type-strength">筋トレ</span><span class="day-emoji">💪</span><div class="day-sub">下半身B</div></div>
+    <div class="day-card" onclick="openDayModal('p2-tue')"><div class="day-name">TUE</div><span class="day-type type-cardio">有酸素</span><span class="day-emoji">🏃</span><div class="day-sub">HIIT 20分</div></div>
+    <div class="day-card" onclick="openDayModal('p2-wed')"><div class="day-name">WED</div><span class="day-type type-tennis">テニス</span><span class="day-emoji">🎾</span><div class="day-sub">90分</div></div>
+    <div class="day-card" onclick="openDayModal('p2-thu')"><div class="day-name">THU</div><span class="day-type type-strength">筋トレ</span><span class="day-emoji">💪</span><div class="day-sub">上半身B</div></div>
+    <div class="day-card" onclick="openDayModal('p2-fri')"><div class="day-name">FRI</div><span class="day-type type-yoga">ヨガ</span><span class="day-emoji">🧘</span><div class="day-sub">回復ヨガ</div></div>
+    <div class="day-card" onclick="openDayModal('p2-sat')"><div class="day-name">SAT</div><span class="day-type type-tennis">テニス</span><span class="day-emoji">🎾</span><div class="day-sub">120分</div></div>
+    <div class="day-card" onclick="openDayModal('p2-sun')"><div class="day-name">SUN</div><span class="day-type type-stretch">ストレッチ</span><span class="day-emoji">🤸</span><div class="day-sub">軽めYOGA</div></div>
+  </div>
+
+  <div class="week-header">
+    <span class="week-badge phase3">PHASE 3</span>
+    <span class="week-title">Week 6–8｜仕上げ期</span>
+    <span class="week-goal">目標：−1.5kg</span>
+  </div>
+  <div class="day-grid">
+    <div class="day-card" onclick="openDayModal('p3-mon')"><div class="day-name">MON</div><span class="day-type type-strength">筋トレ</span><span class="day-emoji">💪</span><div class="day-sub">下半身C</div></div>
+    <div class="day-card" onclick="openDayModal('p3-tue')"><div class="day-name">TUE</div><span class="day-type type-cardio">有酸素</span><span class="day-emoji">🏃</span><div class="day-sub">HIIT 20分</div></div>
+    <div class="day-card" onclick="openDayModal('p3-wed')"><div class="day-name">WED</div><span class="day-type type-tennis">テニス</span><span class="day-emoji">🎾</span><div class="day-sub">90分+</div></div>
+    <div class="day-card" onclick="openDayModal('p3-thu')"><div class="day-name">THU</div><span class="day-type type-strength">筋トレ</span><span class="day-emoji">💪</span><div class="day-sub">全身仕上げ</div></div>
+    <div class="day-card" onclick="openDayModal('p3-fri')"><div class="day-name">FRI</div><span class="day-type type-cardio">有酸素</span><span class="day-emoji">🏃</span><div class="day-sub">ジョグ25分</div></div>
+    <div class="day-card" onclick="openDayModal('p3-sat')"><div class="day-name">SAT</div><span class="day-type type-tennis">テニス</span><span class="day-emoji">🎾</span><div class="day-sub">120分以上</div></div>
+    <div class="day-card" onclick="openDayModal('p3-sun')"><div class="day-name">SUN</div><span class="day-type type-yoga">ヨガ</span><span class="day-emoji">🧘</span><div class="day-sub">回復ヨガ</div></div>
+  </div>
+
+  <div class="section-title">MILESTONES</div>
+  <div class="milestone-list">
+    <div class="milestone"><span class="milestone-week">W1-2</span><span>習慣づくり。毎朝体重記録スタート。生理前後の変動は気にしない。目標 <strong>−1.0kg（68.0kg）</strong></span></div>
+    <div class="milestone"><span class="milestone-week">W3-5</span><span>HIITを週2回導入。テニスの強度も少し上げる。目標 <strong>−2.5kg（65.5kg）</strong></span></div>
+    <div class="milestone"><span class="milestone-week">W6-8</span><span>食事の質を仕上げ。週3のトレーニングを維持。目標 <strong>−1.5kg（64.0kg）</strong></span></div>
+  </div>
+</div>
+
+<!-- EXERCISES -->
+<div id="panel-exercises" class="panel">
+  <div class="section-title">自重トレーニング｜下半身・臀部（女性メイン）</div>
+  <div class="exercise-grid">
+    <div class="exercise-card"><div class="ex-name"><span class="ex-icon">🍑</span>ヒップリフト / グルートブリッジ</div><div class="ex-detail">W1-2：20×3セット<br>W3-5：25×4セット（上部2秒キープ）<br>W6-8：片足ヒップリフト 15×4セット</div><span class="ex-target">臀筋・ハムストリングス</span></div>
+    <div class="exercise-card"><div class="ex-name"><span class="ex-icon">🦵</span>ワイドスクワット</div><div class="ex-detail">足を肩幅より広く開き、つま先は外向き。内ももとお尻に効かせる。15→20→25回×4セット</div><span class="ex-target">内転筋・臀筋・大腿四頭筋</span></div>
+    <div class="exercise-card"><div class="ex-name"><span class="ex-icon">🚶</span>リバースランジ</div><div class="ex-detail">後ろに踏み出すランジ。膝の負担が少なく臀部へより刺激が届く。左右12→15→20回</div><span class="ex-target">臀筋・大腿・バランス</span></div>
+    <div class="exercise-card"><div class="ex-name"><span class="ex-icon">🦩</span>サイドライイングヒップアブダクション</div><div class="ex-detail">横向きに寝て上の足を上げる。外側の臀部（中臀筋）を鍛えてヒップを引き締める。20×3セット</div><span class="ex-target">中臀筋・外転筋</span></div>
+    <div class="exercise-card"><div class="ex-name"><span class="ex-icon">🏃</span>ドンキーキック</div><div class="ex-detail">四つ這いで脚を蹴り上げる。お尻の頂点でキープ1秒。15→20→25回×3セット（左右）</div><span class="ex-target">大臀筋・体幹</span></div>
+    <div class="exercise-card"><div class="ex-name"><span class="ex-icon">🦋</span>ファイアハイドラント</div><div class="ex-detail">四つ這いで横に脚を開く。お尻の横に効く。ドンキーキックとセットで行うと効果大</div><span class="ex-target">中臀筋・股関節外旋</span></div>
+  </div>
+
+  <div class="section-title">自重トレーニング｜上半身・体幹</div>
+  <div class="exercise-grid">
+    <div class="exercise-card"><div class="ex-name"><span class="ex-icon">💪</span>膝つきプッシュアップ → 通常プッシュアップ</div><div class="ex-detail">W1-2：膝つきで10×3。W3-5：通常10×4。W6-8：通常15×4。徐々に移行する</div><span class="ex-target">大胸筋・三頭筋</span></div>
+    <div class="exercise-card"><div class="ex-name"><span class="ex-icon">⬆️</span>斜め懸垂（インバーテッドロウ）</div><div class="ex-detail">テーブルの下に入り体を引き上げる。角度を立てるほど易しい。8→10→12回×3セット</div><span class="ex-target">広背筋・二頭筋</span></div>
+    <div class="exercise-card"><div class="ex-name"><span class="ex-icon">🧱</span>プランク</div><div class="ex-detail">W1-2：30秒×3。W3-5：40秒×4。W6-8：50秒×4。サイドプランクも追加</div><span class="ex-target">体幹全体</span></div>
+    <div class="exercise-card"><div class="ex-name"><span class="ex-icon">🌀</span>バードドッグ</div><div class="ex-detail">四つ這いで対角の手足を伸ばす。腰を安定させながら10秒キープ×左右10回。体幹の安定に最適</div><span class="ex-target">脊柱起立筋・体幹</span></div>
+    <div class="exercise-card"><div class="ex-name"><span class="ex-icon">📐</span>クランチ / バイシクルクランチ</div><div class="ex-detail">通常クランチ20回→バイシクルクランチ20回（腹斜筋にも効く）を1セットとして3セット</div><span class="ex-target">腹直筋・腹斜筋</span></div>
+  </div>
+
+  <div class="section-title">ストレッチ＆ヨガ｜テニス対応・疲労回復</div>
+  <div class="exercise-grid">
+    <div class="exercise-card"><div class="ex-name"><span class="ex-icon">🤸</span>股関節ランジストレッチ</div><div class="ex-detail">ランジポジションで骨盤を前へ。30秒×左右。テニスのフットワーク改善に直結</div><span class="ex-target">腸腰筋・股関節</span></div>
+    <div class="exercise-card"><div class="ex-name"><span class="ex-icon">🧘</span>ピジョンポーズ</div><div class="ex-detail">片脚を前に倒して60〜90秒。女性に特に多い梨状筋の緊張を解放。毎日推奨</div><span class="ex-target">梨状筋・臀部</span></div>
+    <div class="exercise-card"><div class="ex-name"><span class="ex-icon">🌊</span>猫のポーズ（キャット＆カウ）</div><div class="ex-detail">呼吸に合わせて背中を丸める・反らす。10回×2セット。腰痛予防・生理痛にも効果的</div><span class="ex-target">脊柱・腰</span></div>
+    <div class="exercise-card"><div class="ex-name"><span class="ex-icon">🦵</span>内ももストレッチ（蝶々ポーズ）</div><div class="ex-detail">座って両足裏を合わせ60秒キープ。女性に硬くなりやすい内転筋を緩める</div><span class="ex-target">内転筋・鼠径部</span></div>
+    <div class="exercise-card"><div class="ex-name"><span class="ex-icon">🙆</span>胸椎ローテーション</div><div class="ex-detail">四つ這いで上体を回す。10回×左右。テニスのスイングと肩こり解消に</div><span class="ex-target">胸椎・広背筋</span></div>
+    <div class="exercise-card"><div class="ex-name"><span class="ex-icon">☁️</span>チャイルドポーズ</div><div class="ex-detail">膝を広げてお尻をかかとへ。深呼吸5〜10回。全身の力を抜く。運動後の必須ポーズ</div><span class="ex-target">腰・背中・リラックス</span></div>
+  </div>
+</div>
+
+<!-- HIIT TIMER -->
+<div id="panel-hiit" class="panel">
+  <div class="section-title">HIIT タイマー</div>
+  <p style="font-size:13px;color:var(--muted);margin-bottom:20px">Phase 2以降（Week 3〜）に使用。女性向けに関節負担を考慮した4種目構成、5ラウンド×計約20分。スタートを押すと3秒後に開始。</p>
+  <div class="hiit-app">
+    <div class="hiit-queue" id="hiitQueue"></div>
+    <div class="timer-display">
+      <div><span class="timer-phase-badge prep" id="timerPhaseBadge">READY</span></div>
+      <div class="timer-exercise-name prep" id="timerExerciseName">スタートを押してください</div>
+      <div class="timer-number prep" id="timerNumber">3</div>
+      <div class="timer-round-info">
+        <div class="timer-round-badge" id="timerRoundBadge">ROUND 1 / 5</div>
+        <div class="timer-last-label" id="timerLastLabel" style="display:none">🌸 ラスト！</div>
+      </div>
+      <div class="timer-progress"><div class="timer-progress-fill prep" id="timerProgressFill" style="width:100%"></div></div>
+    </div>
+    <div class="timer-controls">
+      <button class="btn btn-start" id="btnStart" onclick="timerStart()">▶ スタート</button>
+      <button class="btn btn-pause" id="btnPause" onclick="timerPause()" disabled>⏸ 一時停止</button>
+      <button class="btn btn-reset" id="btnReset" onclick="timerReset()">↺ リセット</button>
+    </div>
+  </div>
+</div>
+
+<!-- NUTRITION -->
+<div id="panel-nutrition" class="panel">
+  <div class="section-title">カロリー設計（女性向け）</div>
+  <div class="exercise-grid">
+    <div class="exercise-card"><div class="ex-name"><span class="ex-icon">🔥</span>1日の目標カロリー</div><div class="ex-detail"><strong style="color:var(--accent)">1,500〜1,700 kcal</strong><br>（推定基礎代謝約1,350kcal × 活動量1.4）<br>週400g減のために約400kcal/日の赤字。急激な制限は禁物</div></div>
+    <div class="exercise-card"><div class="ex-name"><span class="ex-icon">🥩</span>タンパク質目標</div><div class="ex-detail"><strong style="color:var(--accent)">体重×1.5〜1.8g = 100〜120g/日</strong><br>筋肉量を保ちながら体脂肪を落とす。特に朝食でのタンパク質摂取が重要</div></div>
+    <div class="exercise-card"><div class="ex-name"><span class="ex-icon">🦴</span>カルシウム・鉄分</div><div class="ex-detail"><strong style="color:var(--accent)">意識して摂る</strong><br>女性は生理による鉄分消失リスクあり。豆腐・小松菜・牛乳・鶏レバーを意識的に食べる</div></div>
+  </div>
+
+  <div class="section-title">食事プラン</div>
+  <div class="nutrition-grid">
+    <div class="nutrition-card"><h4>🌅 朝食</h4><ul><li>ゆで卵 1〜2個</li><li>ご飯 120g or オートミール</li><li>納豆 or 豆腐 / 味噌汁</li><li>小松菜や海藻のサラダ</li><li>約400〜500 kcal</li></ul></div>
+    <div class="nutrition-card"><h4>☀️ 昼食</h4><ul><li>鶏むね・魚・豆腐（120〜150g）</li><li>ご飯 130g</li><li>野菜たっぷり（蒸し野菜等）</li><li>味噌汁 or スープ</li><li>約550〜650 kcal</li></ul></div>
+    <div class="nutrition-card"><h4>🌙 夕食</h4><ul><li>タンパク質メイン（魚・豆腐）</li><li>炭水化物は控えめ（100g以下）</li><li>野菜・きのこ・海藻を多めに</li><li>テニス後は炭水化物追加OK</li><li>約450〜550 kcal</li></ul></div>
+    <div class="nutrition-card"><h4>🍵 間食</h4><ul><li>ギリシャヨーグルト（無糖）</li><li>豆乳（無調整）</li><li>ナッツ一掴み（20g程度）</li><li>バナナ（運動前）</li><li>150 kcal以内</li></ul></div>
+  </div>
+
+  <div class="section-title">月経周期と食事・運動のペース</div>
+  <div class="cycle-grid">
+    <div class="cycle-card"><span class="cycle-phase-label follicular">卵胞期（生理後〜排卵）</span><p>エネルギーが高まる期間。トレーニング強度を上げるベストタイミング。代謝が上がるのでこの時期に追い込む</p></div>
+    <div class="cycle-card"><span class="cycle-phase-label ovulation">排卵期</span><p>体力・筋力ともにピーク。HIITやテニスを全力でこなせる最強の週。食欲も安定しやすい</p></div>
+    <div class="cycle-card"><span class="cycle-phase-label luteal">黄体期（排卵後〜生理前）</span><p>むくみやすく体重が増えて見える。甘いものへの欲求が強まる。トレーニング強度を少し落としてもOK</p></div>
+    <div class="cycle-card"><span class="cycle-phase-label menstrual">生理期</span><p>無理に追い込まなくてよい。ウォーキング・ヨガ・軽いストレッチを中心に。鉄分・カルシウムを意識して補給</p></div>
+  </div>
+
+  <div class="section-title">避けるもの・気をつけること</div>
+  <div class="tips-grid">
+    <div class="tip-card"><h4>❌ 減らすもの</h4><ul><li>スイーツ・菓子パン（特に夜）</li><li>フルーツジュース・甘い飲み物</li><li>脂質の高い揚げ物</li><li>お酒（カロリーが高い＋むくみ）</li><li>夜遅い糖質の大量摂取</li></ul></div>
+    <div class="tip-card"><h4>💧 水分摂取</h4><ul><li>1日1.5〜2L以上の水</li><li>むくみ対策に塩分を控える</li><li>黄体期はとくに水分補給を意識</li><li>朝起きたらまず白湯を1杯</li></ul></div>
+    <div class="tip-card"><h4>🎾 テニス日の食事</h4><ul><li>2時間前：バナナ＋ゆで卵</li><li>直後30分以内：豆乳 or ヨーグルト</li><li>夕食：炭水化物を少し増やしてOK</li><li>水分は試合中もこまめに</li></ul></div>
+  </div>
+</div>
+
+<!-- FOOD CALCULATOR -->
+<div id="panel-food" class="panel">
+  <div class="section-title">外食カロリーガイド</div>
+  <p style="font-size:13px;color:var(--muted);margin-bottom:20px">1日の目標カロリーが1,500〜1,700kcalなので、外食1食は600〜700kcalに収めたい。賢い選び方を確認しよう。</p>
+  <div class="food-tabs">
+    <button class="food-tab active" onclick="showFoodTab('noodle',this)">🍜 麺類</button>
+    <button class="food-tab" onclick="showFoodTab('sushi',this)">🍣 寿司</button>
+    <button class="food-tab" onclick="showFoodTab('yakiniku',this)">🔥 焼肉</button>
+  </div>
+
+  <!-- 麺類 -->
+  <div id="food-noodle" class="food-panel active">
+    <div class="food-item"><div class="food-item-emoji">🍜</div><div class="food-item-info"><div class="food-item-name">ざるそば（並盛）</div><div class="food-item-note">◎ 最もおすすめ。低GI・食物繊維豊富</div></div><div class="food-item-kcal">330<span>kcal</span></div></div>
+    <div class="food-item"><div class="food-item-emoji">🍜</div><div class="food-item-info"><div class="food-item-name">鶏白湯ラーメン（スープ半分）</div><div class="food-item-note">○ コラーゲン豊富。スープ半分残しで塩分カット</div></div><div class="food-item-kcal">430<span>kcal</span></div></div>
+    <div class="food-item"><div class="food-item-emoji">🍜</div><div class="food-item-info"><div class="food-item-name">自炊・生中華麺150g（塩ラーメン）</div><div class="food-item-note">◎ 野菜と卵をトッピングしてバランスUP</div></div><div class="food-item-kcal">420<span>kcal</span></div></div>
+    <div class="food-item"><div class="food-item-emoji">🍜</div><div class="food-item-info"><div class="food-item-name">パスタ（ペペロンチーノ）</div><div class="food-item-note">△ 量次第。乾麺60gに抑え、野菜を足す</div></div><div class="food-item-kcal">480<span>kcal</span></div></div>
+    <div class="food-item"><div class="food-item-emoji">🍜</div><div class="food-item-info"><div class="food-item-name">担々麺（スープ全部）</div><div class="food-item-note">✗ 脂質・カロリー・塩分がすべて高い。週1以内</div></div><div class="food-item-kcal">700<span>kcal</span></div></div>
+    <div class="food-total-bar"><div><div class="food-total-label">昼食の目安枠</div></div><div class="food-total-value ok">550–650 <span style="font-size:14px;color:var(--muted)">kcal</span></div></div>
+    <div class="food-advice">💡 <strong style="color:var(--accent)">女性向けポイント：</strong>ゆで卵・豆腐・蒸し鶏でタンパク質を補い、スープは塩分が高いので半分残すこと。麺の量は100〜150gに抑え、野菜ともやしを増量。むくみが気になる時は翌日の塩分を控えめに。</div>
+  </div>
+
+  <!-- 寿司 -->
+  <div id="food-sushi" class="food-panel">
+    <div class="food-item"><div class="food-item-emoji">🐟</div><div class="food-item-info"><div class="food-item-name">まぐろ赤身（2貫）</div><div class="food-item-note">◎ 高タンパク・低脂肪。積極的に選びたい</div></div><div class="food-item-kcal">90<span>kcal</span></div></div>
+    <div class="food-item"><div class="food-item-emoji">🦐</div><div class="food-item-info"><div class="food-item-name">えび（2貫）</div><div class="food-item-note">◎ 低カロリー・高タンパク。何貫食べても安心</div></div><div class="food-item-kcal">80<span>kcal</span></div></div>
+    <div class="food-item"><div class="food-item-emoji">🐡</div><div class="food-item-info"><div class="food-item-name">たこ・いか・ほたて（2貫）</div><div class="food-item-note">◎ 低脂肪・旨み豊か。女性に鉄分・亜鉛補給にも</div></div><div class="food-item-kcal">75<span>kcal</span></div></div>
+    <div class="food-item"><div class="food-item-emoji">🐟</div><div class="food-item-info"><div class="food-item-name">サーモン（2貫）</div><div class="food-item-note">○ オメガ3・ビタミンD豊富。2〜4貫まで</div></div><div class="food-item-kcal">120<span>kcal</span></div></div>
+    <div class="food-item"><div class="food-item-emoji">🥑</div><div class="food-item-info"><div class="food-item-name">アボカドサーモン巻（1本）</div><div class="food-item-note">△ 良質脂肪だが量に注意。1本まで</div></div><div class="food-item-kcal">200<span>kcal</span></div></div>
+    <div class="food-item"><div class="food-item-emoji">🍣</div><div class="food-item-info"><div class="food-item-name">推奨セット（10貫）</div><div class="food-item-note">まぐろ×2・えび×2・ほたて×2・サーモン×2・たこ×2</div></div><div class="food-item-kcal">~820<span>kcal</span></div></div>
+    <div class="food-total-bar"><div><div class="food-total-label">外食1食の目安</div></div><div class="food-total-value warn">700–900 <span style="font-size:14px;color:var(--muted)">kcal</span></div></div>
+    <div class="food-advice">💡 <strong style="color:var(--accent)">女性向けポイント：</strong>白身・赤身・えびを中心に。朝食を少し軽くして昼に寿司を楽しむのが賢い。むくみが気になる時は醤油を控えめに。みそ汁を追加すると満腹感UP。ガリはむしろ食べてOK（生姜は代謝促進）。</div>
+  </div>
+
+  <!-- 焼肉 -->
+  <div id="food-yakiniku" class="food-panel">
+    <div class="food-item"><div class="food-item-emoji">🥩</div><div class="food-item-info"><div class="food-item-name">ヒレ・もも肉（100g）</div><div class="food-item-note">◎ 最優先。鉄分も豊富で女性にベストな選択</div></div><div class="food-item-kcal">160<span>kcal</span></div></div>
+    <div class="food-item"><div class="food-item-emoji">🥩</div><div class="food-item-info"><div class="food-item-name">ハラミ（100g）</div><div class="food-item-note">○ タンパク質が高く、カルビより脂質が少ない</div></div><div class="food-item-kcal">220<span>kcal</span></div></div>
+    <div class="food-item"><div class="food-item-emoji">🥩</div><div class="food-item-info"><div class="food-item-name">タン塩（100g）</div><div class="food-item-note">○ 薄切りで食べ応えあり。脂質は中程度</div></div><div class="food-item-kcal">215<span>kcal</span></div></div>
+    <div class="food-item"><div class="food-item-emoji">🥩</div><div class="food-item-info"><div class="food-item-name">カルビ（100g）</div><div class="food-item-note">△ 美味しいが脂質多め。1〜2皿まで楽しむ</div></div><div class="food-item-kcal">310<span>kcal</span></div></div>
+    <div class="food-item"><div class="food-item-emoji">🥬</div><div class="food-item-info"><div class="food-item-name">サンチュ・ナムル・キムチ</div><div class="food-item-note">◎ 積極的に食べてOK。肉と一緒に摂ると吸収穏やか</div></div><div class="food-item-kcal">30<span>kcal</span></div></div>
+    <div class="food-item"><div class="food-item-emoji">🍚</div><div class="food-item-info"><div class="food-item-name">ご飯（1杯）</div><div class="food-item-note">△ 量を少なめに。スープや冷麺と合わせるなら半分に</div></div><div class="food-item-kcal">250<span>kcal</span></div></div>
+    <div class="food-item"><div class="food-item-emoji">🔥</div><div class="food-item-info"><div class="food-item-name">女性向け焼肉コース目安</div><div class="food-item-note">ヒレ・ハラミ中心200〜250g＋野菜・ライス少なめ</div></div><div class="food-item-kcal">~700<span>kcal</span></div></div>
+    <div class="food-total-bar"><div><div class="food-total-label">夕食として食べるなら</div></div><div class="food-total-value warn">700–900 <span style="font-size:14px;color:var(--muted)">kcal</span></div></div>
+    <div class="food-advice">💡 <strong style="color:var(--accent)">女性向けポイント：</strong>ヒレ・ハラミ・タンを中心に。赤身肉の鉄分は生理後の補給に特に効果的。サンチュに包んで食べると糖質吸収を緩やかにできる。ライスは最後に少量か冷麺（小）に切り替えると満足感を保ちながらカロリーを抑えられる。</div>
+  </div>
+</div>
+
+<!-- ALCOHOL -->
+<div id="panel-alcohol" class="panel">
+  <div class="section-title">お酒カロリー計算</div>
+  <p style="font-size:13px;color:var(--muted);margin-bottom:8px">飲み物を選んで数量を入力するとカロリーが計算されます。</p>
+  <div class="info-box" style="margin-bottom:16px">⚠️ <strong>女性とアルコール：</strong>女性は体脂肪率が高く体内水分が少ないため、男性より血中アルコール濃度が上がりやすい傾向があります。同じ量でも男性の約0.7倍の量に相当します。また、アルコールは脂肪代謝を止めるためむくみやすい黄体期の飲酒は特に控えめに。</div>
+
+  <div class="alcohol-grid">
+    <div class="alcohol-card" onclick="selectAlcohol(this,'ビール（中ジョッキ500ml）',215,'杯')"><span class="alcohol-emoji">🍺</span><div class="alcohol-name">ビール</div><div class="alcohol-base">中ジョッキ 500ml</div><div class="alcohol-kcal">215 kcal</div></div>
+    <div class="alcohol-card" onclick="selectAlcohol(this,'発泡酒（350ml缶）',140,'缶')"><span class="alcohol-emoji">🍺</span><div class="alcohol-name">発泡酒</div><div class="alcohol-base">350ml 缶</div><div class="alcohol-kcal">140 kcal</div></div>
+    <div class="alcohol-card" onclick="selectAlcohol(this,'赤ワイン（グラス150ml）',109,'杯')"><span class="alcohol-emoji">🍷</span><div class="alcohol-name">赤ワイン</div><div class="alcohol-base">グラス 150ml</div><div class="alcohol-kcal">109 kcal</div></div>
+    <div class="alcohol-card" onclick="selectAlcohol(this,'白ワイン（グラス150ml）',113,'杯')"><span class="alcohol-emoji">🥂</span><div class="alcohol-name">白ワイン</div><div class="alcohol-base">グラス 150ml</div><div class="alcohol-kcal">113 kcal</div></div>
+    <div class="alcohol-card" onclick="selectAlcohol(this,'スパークリングワイン（150ml）',105,'杯')"><span class="alcohol-emoji">🥂</span><div class="alcohol-name">スパークリング</div><div class="alcohol-base">グラス 150ml</div><div class="alcohol-kcal">105 kcal</div></div>
+    <div class="alcohol-card" onclick="selectAlcohol(this,'日本酒（1合 180ml）',196,'合')"><span class="alcohol-emoji">🍶</span><div class="alcohol-name">日本酒</div><div class="alcohol-base">1合 180ml</div><div class="alcohol-kcal">196 kcal</div></div>
+    <div class="alcohol-card" onclick="selectAlcohol(this,'焼酎ロック（60ml）',84,'杯')"><span class="alcohol-emoji">🥃</span><div class="alcohol-name">焼酎ロック</div><div class="alcohol-base">60ml（1杯）</div><div class="alcohol-kcal">84 kcal</div></div>
+    <div class="alcohol-card" onclick="selectAlcohol(this,'ハイボール（350ml）',105,'杯')"><span class="alcohol-emoji">🥃</span><div class="alcohol-name">ハイボール</div><div class="alcohol-base">350ml</div><div class="alcohol-kcal">105 kcal</div></div>
+    <div class="alcohol-card" onclick="selectAlcohol(this,'チューハイ（350ml）',155,'缶')"><span class="alcohol-emoji">🍹</span><div class="alcohol-name">チューハイ</div><div class="alcohol-base">350ml 缶</div><div class="alcohol-kcal">155 kcal</div></div>
+  </div>
+
+  <div style="text-align:center; margin:20px 0 8px; font-size:13px; color:var(--muted)">選択中：<strong id="alcSelectedName" style="color:var(--text)">— 選んでください —</strong></div>
+  <div class="qty-control">
+    <button class="qty-btn" onclick="changeQty(-1)">−</button>
+    <div><div class="qty-display" id="alcQty">1</div><div class="qty-unit" id="alcUnit">杯</div></div>
+    <button class="qty-btn" onclick="changeQty(1)">＋</button>
+  </div>
+  <div class="alcohol-result">
+    <div class="alcohol-result-kcal" id="alcTotal">−</div>
+    <div class="alcohol-result-label">合計カロリー（kcal）</div>
+    <div class="alcohol-tip" id="alcTip">お酒を選んで数量を設定してください。</div>
+  </div>
+</div>
+
+<!-- TIPS -->
+<div id="panel-tips" class="panel">
+  <div class="section-title">成功のコツ（女性向け）</div>
+  <div class="tips-grid">
+    <div class="tip-card"><h4>📊 体重の見方</h4><p>生理前は1〜2kgの水分増加は正常。週単位の平均値で判断する。生理後2〜3日で自然に戻る</p></div>
+    <div class="tip-card"><h4>😴 睡眠の質</h4><p>7〜8時間確保。睡眠不足はコルチゾール（ストレスホルモン）が上昇し、お腹まわりに脂肪がつきやすくなる</p></div>
+    <div class="tip-card"><h4>🎾 テニスの活用</h4><p>90分で350〜500kcal消費。ダブルスより動きの多いシングルスを意識。楽しさを保つことが継続の秘訣</p></div>
+    <div class="tip-card"><h4>🧘 ストレス管理</h4><p>女性はストレスで過食しやすい。ヨガ・ストレッチ・入浴で副交感神経を整えることが減量成功に直結する</p></div>
+    <div class="tip-card"><h4>💊 サプリメント</h4><p>鉄分（特に生理後）・ビタミンD・マグネシウムを意識。プロテインは食事でタンパク質が足りない日に補助として</p></div>
+    <div class="tip-card"><h4>🧠 停滞期の対処</h4><p>女性は男性より停滞期に入りやすい。2週間動かない場合は食事の組み合わせを変えるか、運動の種類を変えてみる</p></div>
+  </div>
+
+  <div class="section-title">ケガ予防チェックリスト</div>
+  <div class="tips-grid">
+    <div class="tip-card"><h4>🦵 膝の保護</h4><ul><li>スクワット時は膝をつま先の方向に向ける</li><li>女性は膝の靭帯が緩みやすいので注意</li><li>着地は静かに。ジャンプ系は慣れてから</li></ul></div>
+    <div class="tip-card"><h4>💪 肩・手首</h4><ul><li>テニス前は肩と手首を必ずウォームアップ</li><li>プッシュアップ時の手首の角度に注意</li><li>痛みが出たら即日運動を止める</li></ul></div>
+    <div class="tip-card"><h4>🔙 腰・骨盤</h4><ul><li>生理中は腰回りのストレッチのみ推奨</li><li>ヒップリフトは骨盤の安定を意識して</li><li>産後の方はコアから丁寧に再構築</li></ul></div>
+  </div>
+
+  <div class="alert-box">⚠️ <strong>重要な注意</strong><br>
+  月2.5kgの減量ペースは<strong>女性にとっては十分なペース</strong>です。極端な食事制限は生理不順や骨密度低下につながります。1,200kcal未満には絶対に下げないこと。体に異変を感じたら専門家に相談してください。</div>
+</div>
+
+</div><!-- /content -->
+
+<!-- MODAL -->
+<div class="modal-overlay" id="dayModal" onclick="if(event.target===this)closeDayModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeDayModal()">✕</button>
+    <div class="modal-title" id="modalTitle"></div>
+    <div class="modal-subtitle" id="modalSubtitle"></div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+// === TAB SWITCHING ===
+function showTab(name, el) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  el.classList.add('active');
+}
+
+// === DAY DATA ===
+const dayData = {
+  'p1-mon': {
+    title: '月曜日 — 下半身A', subtitle: 'Phase 1（Week 1-2）', color: 'var(--accent)',
+    sections: [
+      { title: 'ウォームアップ（5分）', items: [
+        { name: '股関節サークル', detail: '足を肩幅に開き、腰で大きな円を描く。前後各10回', sets: '' },
+        { name: 'キャット＆カウ', detail: '四つ這いで背中を丸める・反らす。10回', sets: '' }
+      ]},
+      { title: 'メイントレーニング', items: [
+        { name: 'ヒップリフト（グルートブリッジ）', detail: '仰向けで膝を立てお尻を上げる。上部で2秒キープ。お尻に意識を集中させる', sets: '20回 × 3セット（45秒休憩）' },
+        { name: 'ワイドスクワット', detail: '足を肩幅より広く開き、つま先は外に45°向ける。内ももとお尻を意識', sets: '15回 × 4セット（60秒休憩）' },
+        { name: 'リバースランジ', detail: '後ろに大きく踏み出して膝を90°に。前足のかかとで床を押して戻る', sets: '左右12回 × 3セット（60秒休憩）' },
+        { name: 'ドンキーキック', detail: '四つ這いで脚を後方に蹴り上げる。お尻の頂点で1秒キープ', sets: '15回 × 3セット（左右）' }
+      ]},
+      { title: 'クールダウン（5分）', items: [
+        { name: 'ピジョンポーズ', detail: '片脚を前に倒して60秒。股関節をしっかりほぐす', sets: '60秒×左右' }
+      ]}
+    ]
+  },
+  'p1-tue': {
+    title: '火曜日 — ヨガ（全身ほぐし）', subtitle: 'Phase 1（Week 1-2）', color: 'var(--accent2)',
+    sections: [
+      { title: 'ヨガフロー（約30分）', items: [
+        { name: 'チャイルドポーズ', detail: '膝を広げてお尻をかかとへ。深呼吸10回でスタート。心を落ち着かせる', sets: '1分' },
+        { name: 'ダウンドッグ', detail: '逆V字で背中・ハムストリングスを伸ばす。踵を床に近づける意識', sets: '30秒×3' },
+        { name: 'コブラポーズ', detail: '腹這いで上体を起こし胸を開く。腰に痛みがない範囲で', sets: '30秒×3' },
+        { name: '蝶々ポーズ', detail: '座って両足裏を合わせ、膝を優しく床に押す。内ももを伸ばす', sets: '60秒' },
+        { name: 'ピジョンポーズ', detail: '片脚を前に倒して60〜90秒。深呼吸を繰り返す', sets: '90秒×左右' },
+        { name: '仰向けのねじり', detail: '膝を横に倒して脊柱をほぐす。肩が床から離れないようにする', sets: '60秒×左右' }
+      ]}
+    ]
+  },
+  'p1-wed': {
+    title: '水曜日 — テニス', subtitle: 'Phase 1（Week 1-2）', color: 'var(--teal)',
+    sections: [
+      { title: 'テニス前ウォームアップ（10分）', items: [
+        { name: '軽いジョギング', detail: 'コートを2〜3周。体温を上げる', sets: '3〜5分' },
+        { name: '肩・肘の動的ストレッチ', detail: 'ラケットなしで素振り動作。肩の可動域確認', sets: '1〜2分' }
+      ]},
+      { title: 'テニス（60〜90分）', items: [
+        { name: '球出し・ラリー練習', detail: '前半はフォーム確認。無理せず動く', sets: '〜30分' },
+        { name: 'ゲーム形式', detail: '後半は試合形式。楽しく心拍数を上げる', sets: '30〜60分' }
+      ]},
+      { title: 'テニス後ケア（必須）', items: [
+        { name: 'ふくらはぎストレッチ', detail: '壁に手をついて踵を地面につける。30秒×左右', sets: '' },
+        { name: '股関節・ハムストリングス', detail: '各30秒丁寧に。明日の疲労感が変わる', sets: '' }
+      ]}
+    ]
+  },
+  'p1-thu': {
+    title: '木曜日 — 上半身A', subtitle: 'Phase 1（Week 1-2）', color: 'var(--accent)',
+    sections: [
+      { title: 'メイントレーニング', items: [
+        { name: '膝つきプッシュアップ', detail: '膝をついて胸を床に近づける。肘は体の横に45°。フォーム重視で丁寧に', sets: '10回 × 3セット（60秒休憩）' },
+        { name: '斜め懸垂', detail: 'テーブル下で体を引き上げる。背中の広背筋を意識。角度は自分に合わせる', sets: '8回 × 3セット（90秒休憩）' },
+        { name: 'バードドッグ', detail: '四つ這いで対角の手足をゆっくり伸ばし、10秒キープしてからゆっくり戻す', sets: '10回 × 3セット（左右）' },
+        { name: 'プランク', detail: '肘をついて全身まっすぐ。腰が落ちないよう体幹に力を入れる', sets: '30秒 × 3セット' }
+      ]},
+      { title: 'クールダウン', items: [
+        { name: '肩・胸のオープン', detail: '壁に手をつき胸を開く。30秒×左右', sets: '' }
+      ]}
+    ]
+  },
+  'p1-fri': {
+    title: '金曜日 — ストレッチ＋ウォーク', subtitle: 'Phase 1（Week 1-2）', color: 'var(--success)',
+    sections: [
+      { title: 'ウォーキング（20〜30分）', items: [
+        { name: '早歩き', detail: '息が少し上がる程度のペース。日常動作の延長として取り入れる', sets: '20〜30分' }
+      ]},
+      { title: '夜のストレッチ（15〜20分）', items: [
+        { name: 'キャット＆カウ', detail: '10回繰り返す。寝る前のルーティンに', sets: '10回' },
+        { name: '内ももストレッチ（蝶々）', detail: '60秒。女性に硬くなりやすい内転筋を緩める', sets: '60秒' },
+        { name: 'ピジョンポーズ', detail: '左右60秒ずつ。副交感神経を整えて良質な睡眠へ', sets: '60秒×左右' }
+      ]}
+    ]
+  },
+  'p1-sat': {
+    title: '土曜日 — テニス（長時間）', subtitle: 'Phase 1（Week 1-2）', color: 'var(--teal)',
+    sections: [
+      { title: 'テニス前準備（15分）', items: [
+        { name: '動的ウォームアップ', detail: 'ランニング、サイドステップ、スキップ。各1分。全身の血流を上げる', sets: '10分' },
+        { name: '素振り・ラケット体操', detail: 'フォアハンド・バックハンドの確認', sets: '5分' }
+      ]},
+      { title: 'テニス（90〜120分）', items: [
+        { name: '球出し・ウォームアップ', detail: '最初の30分はゆっくりラリー', sets: '〜30分' },
+        { name: 'ゲーム形式', detail: 'ダブルスでも動きを多くする意識で。楽しむのが最優先', sets: '60〜90分' }
+      ]},
+      { title: 'テニス後ケア（必須）', items: [
+        { name: '全身クールダウンストレッチ', detail: '股関節・ハムストリングス・肩を各30〜60秒', sets: '15分' },
+        { name: '補食', detail: '30分以内に豆乳 or ヨーグルト or バナナ', sets: '' }
+      ]}
+    ]
+  },
+  'rest': {
+    title: '日曜日 — 完全休養', subtitle: '全フェーズ共通', color: 'var(--muted)',
+    sections: [
+      { title: '休養の過ごし方', items: [
+        { name: '完全休養', detail: '激しい運動はしない。筋肉と神経系を回復させる最重要な日', sets: '' },
+        { name: '軽い散歩はOK', detail: '30分以内の散歩は疲労回復を助ける', sets: '任意' },
+        { name: '睡眠を優先', detail: '8時間以上が理想。成長ホルモンは深睡眠中に分泌される', sets: '' },
+        { name: '食事は通常通り', detail: '休養日だからといって極端に減らさない。筋肉の合成は続いている', sets: '' }
+      ]}
+    ]
+  },
+  'p2-mon': {
+    title: '月曜日 — 下半身B（強化）', subtitle: 'Phase 2（Week 3-5）', color: 'var(--accent)',
+    sections: [
+      { title: 'メイントレーニング（強化）', items: [
+        { name: 'ヒップリフト（片足）', detail: '片足を上げた状態でお尻を上げる。難易度が上がり大臀筋への刺激が強くなる', sets: '12回 × 4セット（左右）' },
+        { name: 'ブルガリアンスプリットスクワット', detail: '片足を椅子に乗せてスクワット。バランスと臀部への深い刺激', sets: '10回 × 3セット（左右）' },
+        { name: 'ファイアハイドラント', detail: '四つ這いで横に脚を開く。お尻の横（中臀筋）に効かせる', sets: '20回 × 3セット（左右）' },
+        { name: 'ドンキーキック＋サークル', detail: 'ドンキーキック後、そのまま脚で円を描く。複合動作でお尻全体を刺激', sets: '15回＋10円×3セット（左右）' },
+        { name: 'サイドライイングヒップアブダクション', detail: '横向きに寝て上の足をゆっくり上げる。外転筋を鍛えて骨盤を安定させる', sets: '20回 × 3セット（左右）' }
+      ]}
+    ]
+  },
+  'p2-tue': {
+    title: '火曜日 — HIIT 20分', subtitle: 'Phase 2（Week 3-5）', color: 'var(--accent3)',
+    sections: [
+      { title: 'HIIT 20分サーキット', items: [
+        { name: 'ジャンプスクワット', detail: '着地時に膝をしっかり曲げて衝撃を吸収。無音着地を目指す', sets: '30秒 × 5ラウンド（15秒休憩）' },
+        { name: 'マウンテンクライマー', detail: 'プランクの姿勢から交互に膝を胸に引き寄せる。腰を上げない', sets: '30秒 × 5ラウンド' },
+        { name: 'ヒップリフトパルス', detail: 'お尻を上げた状態で小刻みに動かす。臀筋に効かせ続ける', sets: '30秒 × 5ラウンド' },
+        { name: 'ラウンド間休憩', detail: '3種目で1ラウンド。ラウンド間に60秒休憩', sets: '60秒×5ラウンド間' }
+      ]},
+      { title: '消費カロリー目安', items: [
+        { name: '約150〜230kcal', detail: '20分HIITでの消費量。アフターバーン効果で＋40〜80kcal', sets: '' }
+      ]}
+    ]
+  },
+  'p2-wed': {
+    title: '水曜日 — テニス', subtitle: 'Phase 2（Week 3-5）', color: 'var(--teal)',
+    sections: [
+      { title: 'テニス（90分）', items: [
+        { name: 'ウォームアップ', detail: '動的ストレッチ10分。心拍数を上げてから開始', sets: '10分' },
+        { name: 'フットワーク重視ドリル', detail: 'コーナー間の素早い切り返しを意識。下半身トレーニングの成果を確認', sets: '30分' },
+        { name: 'ゲーム', detail: 'シングルスか2対1の練習。動き続けることを意識', sets: '50分' }
+      ]}
+    ]
+  },
+  'p2-thu': {
+    title: '木曜日 — 上半身B（強化）', subtitle: 'Phase 2（Week 3-5）', color: 'var(--accent)',
+    sections: [
+      { title: 'メイントレーニング（強化）', items: [
+        { name: 'プッシュアップ（通常）', detail: '膝なしで挑戦。難しい場合はインクラインプッシュアップ（台に手をつく）', sets: '10回 × 4セット（60秒休憩）' },
+        { name: '斜め懸垂（角度を寝かせる）', detail: '体を水平に近づけることで難易度UP。広背筋を意識して引き上げる', sets: '8〜10回 × 4セット' },
+        { name: 'バードドッグ（スロー）', detail: '3秒かけて伸ばし、3秒かけて戻す。コントロール重視', sets: '10回 × 4セット（左右）' },
+        { name: 'プランク（バリエーション）', detail: '肘プランク40秒 → サイドプランク30秒（左右）を1セット', sets: '4セット' }
+      ]}
+    ]
+  },
+  'p2-fri': {
+    title: '金曜日 — 回復ヨガ', subtitle: 'Phase 2（Week 3-5）', color: 'var(--accent2)',
+    sections: [
+      { title: 'リストラティブヨガ（30〜40分）', items: [
+        { name: 'チャイルドポーズ', detail: '膝を広げてお尻をかかとへ。深呼吸×10回。背中・腰を完全に緩める', sets: '2分' },
+        { name: 'ハッピーベイビーポーズ', detail: '仰向けで膝を胸に引き寄せ、足の裏を上に向けて両手でつかむ。股関節を開く', sets: '60秒' },
+        { name: 'ピジョンポーズ', detail: '今週最も疲れた股関節をしっかりほぐす。深呼吸を繰り返す', sets: '90秒×左右' },
+        { name: 'スパインツイスト', detail: '仰向けで膝を横に倒すねじりのポーズ。脊柱をほぐし副交感神経を優位に', sets: '60秒×左右' },
+        { name: 'シャバアーサナ', detail: '全身を脱力して5〜10分。今週のトレーニングをねぎらう時間', sets: '5〜10分' }
+      ]}
+    ]
+  },
+  'p2-sat': {
+    title: '土曜日 — テニス（120分）', subtitle: 'Phase 2（Week 3-5）', color: 'var(--teal)',
+    sections: [
+      { title: 'テニス（120分）', items: [
+        { name: 'ウォームアップ', detail: '15分の動的ストレッチ。特に股関節・肩を念入りに', sets: '15分' },
+        { name: '高強度ゲーム', detail: 'シングルスを意識。休憩を短くして心拍数を維持する', sets: '90〜105分' },
+        { name: 'アフターケア必須', detail: '試合後は必ずストレッチ15〜20分。翌日のコンディションが変わる', sets: '20分' }
+      ]}
+    ]
+  },
+  'p2-sun': {
+    title: '日曜日 — 軽めストレッチ', subtitle: 'Phase 2（Week 3-5）', color: 'var(--success)',
+    sections: [
+      { title: '軽めのストレッチ（20〜30分）', items: [
+        { name: '全身軽ストレッチ', detail: '気持ちいいと感じる範囲で全身を伸ばす。筋肉痛がある部位は触らない', sets: '20〜30分' }
+      ]}
+    ]
+  },
+  'p3-mon': {
+    title: '月曜日 — 下半身C（仕上げ）', subtitle: 'Phase 3（Week 6-8）', color: 'var(--teal)',
+    sections: [
+      { title: '仕上げサーキット（下半身）', items: [
+        { name: 'ヒップリフト片足 → 通常 → パルス', detail: '片足15回→通常20回→上げたままパルス20回を1セットとして3セット。お尻を追い込む', sets: '3セット' },
+        { name: 'ジャンプスクワット', detail: '15回連続。最後の5回は全力でジャンプ', sets: '15回 × 4セット' },
+        { name: 'ブルガリアンスプリットスクワット', detail: '12回×4セット（左右）。スロー（3秒下げ）で筋肉への刺激を高める', sets: '12回 × 4セット（左右）' },
+        { name: 'サイドランジ', detail: '横に大きく踏み出す。内もも・外もも両方に効く', sets: '左右12回 × 3セット' }
+      ]}
+    ]
+  },
+  'p3-tue': {
+    title: '火曜日 — HIIT 20分', subtitle: 'Phase 3（Week 6-8）', color: 'var(--accent3)',
+    sections: [
+      { title: 'HIIT 20分（仕上げ）', items: [
+        { name: 'ジャンプスクワット', detail: 'Phase 2より速いテンポで', sets: '35秒 × 5ラウンド（20秒休憩）' },
+        { name: 'マウンテンクライマー', detail: '速いペースで繰り返す。体幹を引き締める', sets: '35秒 × 5ラウンド' },
+        { name: 'ヒップリフトパルス', detail: '強度UP。お尻を下げずにパルスし続ける', sets: '35秒 × 5ラウンド' }
+      ]}
+    ]
+  },
+  'p3-wed': {
+    title: '水曜日 — テニス（高強度）', subtitle: 'Phase 3（Week 6-8）', color: 'var(--teal)',
+    sections: [
+      { title: 'テニス（90分+）', items: [
+        { name: 'フットワーク重視ドリル', detail: '俊敏性を高める。コーン使ったコートでのダッシュ練習', sets: '30分' },
+        { name: 'シングルスゲーム', detail: '休憩を最小限にして動き続ける', sets: '60分〜' },
+        { name: 'アフターケア', detail: '15分ストレッチ必須', sets: '15分' }
+      ]}
+    ]
+  },
+  'p3-thu': {
+    title: '木曜日 — 全身仕上げ', subtitle: 'Phase 3（Week 6-8）', color: 'var(--teal)',
+    sections: [
+      { title: '全身仕上げサーキット', items: [
+        { name: 'プッシュアップ（最大回数）', detail: '今の自分の最大回数。フォームを崩さない範囲で', sets: 'MAX × 4セット' },
+        { name: '斜め懸垂', detail: 'スロープル（3秒かけて下げる）で刺激を高める', sets: '10回 × 4セット' },
+        { name: 'ジャンプスクワット', detail: '20回 × 4セット。全力で動く', sets: '20回 × 4セット' },
+        { name: 'バードドッグ＋プランク', detail: 'バードドッグ10回→即プランク30秒を1セット', sets: '4セット' },
+        { name: 'クランチ＋バイシクル', detail: '通常20回→バイシクル20回を1セット。腹筋を仕上げる', sets: '3セット' }
+      ]}
+    ]
+  },
+  'p3-fri': {
+    title: '金曜日 — ジョグ25分', subtitle: 'Phase 3（Week 6-8）', color: 'var(--accent3)',
+    sections: [
+      { title: 'ジョギング', items: [
+        { name: '有酸素ジョギング', detail: '会話ができるペースで25分継続。脂肪燃焼に最適な強度（最大心拍数60〜70%）', sets: '25分' },
+        { name: '目安ペース', detail: '1kmあたり7〜8分程度。速さより「止まらず続ける」を優先', sets: '' }
+      ]},
+      { title: 'ジョグ後ストレッチ', items: [
+        { name: 'ふくらはぎ・大腿部', detail: '各30秒丁寧に。ランニング後の筋肉痛予防', sets: '各30秒×2' }
+      ]}
+    ]
+  },
+  'p3-sat': {
+    title: '土曜日 — テニス（最大強度）', subtitle: 'Phase 3（Week 6-8）', color: 'var(--teal)',
+    sections: [
+      { title: 'テニス（120分以上）', items: [
+        { name: 'フルウォームアップ', detail: '20分かけて全身を準備。動的ストレッチ＋ドリル', sets: '20分' },
+        { name: 'シングルス（本気モード）', detail: 'このフェーズの最大の消費機会。全力で動き切る', sets: '100分' },
+        { name: '試合後ケア（必須）', detail: '20分ストレッチ。翌日の状態に直結する', sets: '20分' }
+      ]}
+    ]
+  },
+  'p3-sun': {
+    title: '日曜日 — 回復ヨガ', subtitle: 'Phase 3（Week 6-8）', color: 'var(--accent2)',
+    sections: [
+      { title: 'リストラティブヨガ（30〜40分）', items: [
+        { name: '全身回復ヨガ', detail: '今週のハードワークをねぎらう。気持ちいいと感じるポーズをゆっくり行う', sets: '30〜40分' },
+        { name: '入浴（40℃、15分）', detail: '筋肉の回復を促進。ゆっくりお湯につかる。翌週の準備', sets: '' }
+      ]}
+    ]
+  }
+};
+
+function openDayModal(key) {
+  const d = dayData[key];
+  if (!d) return;
+  document.getElementById('modalTitle').textContent = d.title;
+  document.getElementById('modalTitle').style.color = d.color;
+  document.getElementById('modalSubtitle').textContent = d.subtitle;
+  let html = '';
+  d.sections.forEach(sec => {
+    html += `<div class="modal-section"><h4>${sec.title}</h4>`;
+    sec.items.forEach(item => {
+      html += `<div class="modal-ex-item">
+        <div class="modal-ex-name">${item.name}</div>
+        <div class="modal-ex-detail">${item.detail}</div>
+        ${item.sets ? `<span class="modal-ex-sets">${item.sets}</span>` : ''}
+      </div>`;
+    });
+    html += '</div>';
+  });
+  document.getElementById('modalBody').innerHTML = html;
+  document.getElementById('dayModal').classList.add('open');
+}
+function closeDayModal() { document.getElementById('dayModal').classList.remove('open'); }
+
+// === HIIT TIMER (female version: 3 exercises tailored for women) ===
+const ROUNDS = 5;
+const hiitSequence = [];
+const exercises = [
+  { name: 'ジャンプスクワット 🦵', type: 'work', duration: 30 },
+  { name: '休憩', type: 'rest', duration: 15 },
+  { name: 'マウンテンクライマー 🌊', type: 'work', duration: 30 },
+  { name: '休憩', type: 'rest', duration: 15 },
+  { name: 'ヒップリフトパルス 🍑', type: 'work', duration: 30 },
+  { name: '休憩', type: 'rest', duration: 15 },
+];
+for (let r = 1; r <= ROUNDS; r++) {
+  exercises.forEach(ex => hiitSequence.push({ ...ex, round: r }));
+  if (r < ROUNDS) hiitSequence.push({ name: 'ラウンド休憩 💤', type: 'rest', duration: 60, round: r, roundBreak: true });
+}
+
+function buildQueue() {
+  const q = document.getElementById('hiitQueue');
+  q.innerHTML = '';
+  hiitSequence.forEach((s, i) => {
+    const el = document.createElement('div');
+    el.className = `hiit-step ${s.type}`;
+    el.id = `qs${i}`;
+    if (s.roundBreak) {
+      el.textContent = `R${s.round}→R${s.round+1} 休憩`;
+    } else {
+      el.textContent = s.type === 'rest' ? `休憩 ${s.duration}s` : `R${s.round} ${s.name.split(' ')[0]}`;
+    }
+    q.appendChild(el);
+  });
+}
+buildQueue();
+
+let tmState = 'idle', tmInterval = null, tmPrepSec = 3;
+let tmStep = 0, tmSec = 0, tmStepTotal = 0;
+
+function updateDisplay() {
+  const badge = document.getElementById('timerPhaseBadge');
+  const name  = document.getElementById('timerExerciseName');
+  const num   = document.getElementById('timerNumber');
+  const round = document.getElementById('timerRoundBadge');
+  const last  = document.getElementById('timerLastLabel');
+  const fill  = document.getElementById('timerProgressFill');
+
+  if (tmState === 'idle' || tmState === 'prep') {
+    badge.className = 'timer-phase-badge prep'; badge.textContent = 'READY';
+    name.className = 'timer-exercise-name prep'; name.textContent = tmState === 'idle' ? 'スタートを押してください' : '準備してください';
+    num.className = 'timer-number prep'; num.textContent = tmPrepSec;
+    round.className = 'timer-round-badge'; round.textContent = 'ROUND 1 / ' + ROUNDS;
+    last.style.display = 'none';
+    fill.className = 'timer-progress-fill prep'; fill.style.width = ((tmPrepSec / 3) * 100) + '%';
+    return;
+  }
+  if (tmState === 'done') {
+    badge.className = 'timer-phase-badge complete'; badge.textContent = 'COMPLETE!';
+    name.className = 'timer-exercise-name work'; name.textContent = 'お疲れ様でした！🌸';
+    num.className = 'timer-number work'; num.textContent = '🎉';
+    round.className = 'timer-round-badge'; round.textContent = `全${ROUNDS}ラウンド完了`;
+    last.style.display = 'none'; fill.style.width = '100%';
+    return;
+  }
+  const s = hiitSequence[tmStep];
+  const type = s.type;
+  const isLast = (s.round === ROUNDS);
+  badge.className = `timer-phase-badge ${type}`;
+  badge.textContent = type === 'work' ? 'WORK' : (s.roundBreak ? 'ROUND BREAK' : 'REST');
+  name.className = `timer-exercise-name ${type}`; name.textContent = s.name;
+  num.className = `timer-number ${type}`; num.textContent = tmSec;
+  round.textContent = `ROUND ${s.round} / ${ROUNDS}`;
+  round.className = isLast ? 'timer-round-badge last-round' : 'timer-round-badge';
+  last.style.display = isLast ? 'inline' : 'none';
+  fill.className = `timer-progress-fill ${type}`;
+  fill.style.width = (tmStepTotal > 0 ? (tmSec / tmStepTotal) * 100 : 0) + '%';
+  document.querySelectorAll('.hiit-step').forEach(el => el.classList.remove('active','done'));
+  hiitSequence.forEach((hs, i) => {
+    const el = document.getElementById(`qs${i}`);
+    if (!el) return;
+    if (i < tmStep) el.classList.add('done');
+    else if (i === tmStep) el.classList.add('active');
+  });
+}
+
+function tick() {
+  if (tmState === 'prep') {
+    tmPrepSec--;
+    if (tmPrepSec <= 0) {
+      tmState = 'running'; tmStep = 0;
+      tmSec = hiitSequence[0].duration; tmStepTotal = hiitSequence[0].duration;
+    }
+    updateDisplay(); return;
+  }
+  if (tmState !== 'running') return;
+  tmSec--;
+  if (tmSec <= 0) {
+    tmStep++;
+    if (tmStep >= hiitSequence.length) {
+      clearInterval(tmInterval); tmInterval = null; tmState = 'done';
+      document.getElementById('btnStart').disabled = true;
+      document.getElementById('btnPause').disabled = true;
+      updateDisplay(); return;
+    }
+    tmSec = hiitSequence[tmStep].duration; tmStepTotal = hiitSequence[tmStep].duration;
+  }
+  updateDisplay();
+}
+
+function timerStart() {
+  if (tmState === 'running' || tmState === 'done') return;
+  if (tmState === 'idle') { tmState = 'prep'; tmPrepSec = 3; }
+  else if (tmState === 'paused') { tmState = 'running'; }
+  document.getElementById('btnStart').disabled = true;
+  document.getElementById('btnPause').disabled = false;
+  document.getElementById('btnPause').textContent = '⏸ 一時停止';
+  if (tmInterval) clearInterval(tmInterval);
+  tmInterval = setInterval(tick, 1000);
+  updateDisplay();
+}
+function timerPause() {
+  if (tmState === 'running' || tmState === 'prep') {
+    clearInterval(tmInterval); tmInterval = null; tmState = 'paused';
+    document.getElementById('btnStart').disabled = false;
+    document.getElementById('btnPause').textContent = '▶ 再開';
+  } else if (tmState === 'paused') { timerStart(); }
+}
+function timerReset() {
+  clearInterval(tmInterval); tmInterval = null; tmState = 'idle';
+  tmPrepSec = 3; tmStep = 0; tmSec = 0; tmStepTotal = 0;
+  document.getElementById('btnStart').disabled = false;
+  document.getElementById('btnPause').disabled = true;
+  document.getElementById('btnPause').textContent = '⏸ 一時停止';
+  document.querySelectorAll('.hiit-step').forEach(el => el.classList.remove('active','done'));
+  updateDisplay();
+}
+
+// === FOOD TABS ===
+function showFoodTab(name, el) {
+  document.querySelectorAll('.food-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.food-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('food-' + name).classList.add('active');
+  el.classList.add('active');
+}
+
+// === ALCOHOL CALCULATOR ===
+let alcBaseKcal = 0, alcQty = 1, alcUnit = '杯';
+function selectAlcohol(el, name, kcal, unit) {
+  document.querySelectorAll('.alcohol-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  alcBaseKcal = kcal; alcUnit = unit;
+  document.getElementById('alcSelectedName').textContent = name;
+  document.getElementById('alcUnit').textContent = unit;
+  updateAlcResult();
+}
+function changeQty(delta) {
+  alcQty = Math.max(1, Math.min(20, alcQty + delta));
+  document.getElementById('alcQty').textContent = alcQty;
+  updateAlcResult();
+}
+function updateAlcResult() {
+  if (!alcBaseKcal) return;
+  const total = alcBaseKcal * alcQty;
+  const el = document.getElementById('alcTotal');
+  el.textContent = total;
+  el.className = 'alcohol-result-kcal';
+  // 女性の基準は男性より低めに設定
+  if (total < 150) el.classList.add('ok');
+  else if (total < 350) el.classList.add('warn');
+  else el.classList.add('over');
+
+  let tip = '';
+  if (total < 150) tip = '✅ この量なら1日のカロリー枠内に収まります。食事の炭水化物を少し控えるだけでOK。';
+  else if (total < 300) tip = '⚠️ 夕食のご飯を抜くか半分にするとカロリーバランスを保てます。女性はアルコールの分解が遅いので翌日の朝食を軽めに。むくみ対策として水をよく飲んで。';
+  else if (total < 550) tip = '🚨 1日のカロリー予算の20〜30%以上をお酒で消費しています。翌日の食事を丁寧に管理し、有酸素運動を追加してください。黄体期（生理前）のこの量は特に控えめに。';
+  else tip = '🔴 かなりのカロリーオーバーです。女性は男性より少量でも影響が出やすいため週1回以内に抑えましょう。翌日は食事を整え、テニスかジョグで消費を心がけて。';
+  document.getElementById('alcTip').textContent = tip;
+}
+</script>
+</body>
+</html>
